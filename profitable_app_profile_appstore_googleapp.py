@@ -77,3 +77,51 @@ for app in google_data:
         
 
 print(len(android_clean))
+
+eng_apps = []
+
+def eng_str_check(strng):
+    non_eng_chr = 0
+    for char in strng:
+        if ord(char) > 127 or ord(char) < 0:
+            non_eng_chr += 1
+            if non_eng_chr > 3:
+                return False
+    return True
+
+for app in google_data:
+    if eng_str_check(app[0]) == True:
+        eng_apps.append(app)
+        
+print('Number of English apps: ',len(eng_apps))
+
+free_apps = []
+
+for app in eng_apps:
+    if app[6].lower() == 'free':
+        free_apps.append(app)
+
+print('Number of free apps: ',len(free_apps))
+
+
+def freq_table(dataset, index):
+    freq_tbl = {}
+    for row in dataset:
+        if row[index] not in freq_tbl:
+            freq_tbl[row[index]] = 1
+        else:
+            freq_tbl[row[index]] += 1
+    return freq_tbl        
+
+
+def display_table(dataset, index):
+    table = freq_table(dataset, index)
+    table_display = []
+    for key in table:
+        key_val_as_tuple = (table[key], key)
+        table_display.append(key_val_as_tuple)
+
+    table_sorted = sorted(table_display, reverse = True)
+    for entry in table_sorted:
+        print(entry[1], ':', entry[0])
+        
